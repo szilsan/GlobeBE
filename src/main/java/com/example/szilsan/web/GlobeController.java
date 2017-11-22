@@ -1,12 +1,10 @@
 package com.example.szilsan.web;
 
-import com.example.szilsan.GlobeDTO;
-import com.example.szilsan.PositionsDTO;
 import com.example.szilsan.SimulationManager;
+import com.example.szilsan.model.Globe;
+import com.example.szilsan.model.SimulationModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.atomic.AtomicLong;
@@ -17,32 +15,25 @@ import java.util.concurrent.atomic.AtomicLong;
 @RestController
 public class GlobeController {
 
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
-
     @Autowired
     private SimulationManager simulationManager;
 
     @RequestMapping("/")
     public String index() {
-        return "Greetings from Spring Boot!";
-    }
-
-    @RequestMapping("/adding/")
-    public String adding() {
-        return "Adding result: ";
+        return "Greetings from Globe pilot project!";
     }
 
     @RequestMapping("/positions")
     public PositionsDTO positions() {
-        System.out.println("Request at " + System.currentTimeMillis());
-        GlobeDTO globeDTO1 = new GlobeDTO(System.currentTimeMillis()%10,1 + System.currentTimeMillis()%10,2 + System.currentTimeMillis()%10,3 + System.currentTimeMillis()%10);
-        GlobeDTO globeDTO2 = new GlobeDTO(System.currentTimeMillis()%5,1 + System.currentTimeMillis()%5,2 + System.currentTimeMillis()%5,3 + System.currentTimeMillis()%10);
-        GlobeDTO globeDTO3 = new GlobeDTO(System.currentTimeMillis()%12,1 + System.currentTimeMillis()%12,2 + System.currentTimeMillis()%12,3 + System.currentTimeMillis()%10);
-        PositionsDTO positionsDTO = new PositionsDTO();
-        positionsDTO.getPositions().add(globeDTO1);
-        positionsDTO.getPositions().add(globeDTO2);
-        positionsDTO.getPositions().add(globeDTO3);
+        final SimulationModel model = simulationManager.getModel();
+        final PositionsDTO positionsDTO = new PositionsDTO();
+
+        if (model != null && model.getGlobes().size() > 0) {
+            for (Globe globe : model.getGlobes()) {
+                //GlobeDTO globeDTO = new GlobeDTO(globe.getX(), globe.getY(), globe.getZ(), globe.getMass());
+                //positionsDTO.getPositions().add(globeDTO);
+            }
+        }
 
         return positionsDTO;
     }
@@ -50,6 +41,11 @@ public class GlobeController {
     @RequestMapping("/stop")
     public void stopSimulation(){
         simulationManager.stopSimulation();
+    }
+
+    @RequestMapping("/exit")
+    public void exitSimulation(){
+        simulationManager.exitSimulation();
     }
 
     @RequestMapping("/restart")
@@ -60,14 +56,5 @@ public class GlobeController {
     @RequestMapping("/continue")
     public void continueSimulation(){
         simulationManager.continueSimulation();
-    }
-
-    // GETTERS SETTERS
-    public SimulationManager getSimulationManager() {
-        return simulationManager;
-    }
-
-    public void setSimulationManager(SimulationManager simulationManager) {
-        this.simulationManager = simulationManager;
     }
 }

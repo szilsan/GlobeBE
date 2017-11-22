@@ -1,5 +1,7 @@
 package com.example.szilsan;
 
+import com.example.szilsan.model.SimulationModel;
+import com.example.szilsan.model.SimulationModelFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class SimulationManager implements CommandLineRunner{
 
     @Autowired
-    private SimulationThreadScheduled simulationThreadScheduled = new SimulationThreadScheduled();
+    private SimulationModel model;
 
     @Autowired
     private SimulationThread simulationThread;
@@ -29,30 +31,22 @@ public class SimulationManager implements CommandLineRunner{
     }
 
     public void restartSimulation() {
-        simulationThread.setStatus(SimulationStatus.NOT_STARTED);
+        model.getGlobes().clear();
         simulationThread.setStatus(SimulationStatus.RUNNING);
     }
 
     public void exitSimulation() {
-        simulationThreadScheduled.setStatus(SimulationStatus.EXIT);
+        simulationThread.setStatus(SimulationStatus.EXIT);
     }
 
     @Override
     public void run(String... strings) throws Exception {
+        model.getGlobes().addAll(SimulationModelFactory.createDefaultModel().getGlobes());
         simulationThread.run();
     }
 
     // GETTERS SETTERS
-    public SimulationThreadScheduled getSimulationThreadScheduled() {
-        return simulationThreadScheduled;
+    public SimulationModel getModel() {
+        return model;
     }
-
-    public SimulationThread getSimulationThread() {
-        return simulationThread;
-    }
-
-    public void setSimulationThread(SimulationThread simulationThread) {
-        this.simulationThread = simulationThread;
-    }
-
 }

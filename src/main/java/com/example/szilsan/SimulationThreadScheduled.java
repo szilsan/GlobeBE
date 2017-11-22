@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Scope("singleton")
+@Deprecated
 public class SimulationThreadScheduled {
 
     @Autowired

@@ -1,4 +1,4 @@
-package com.example.szilsan;
+package com.example.szilsan.web;
 
 import java.util.HashSet;
 import java.util.Set;

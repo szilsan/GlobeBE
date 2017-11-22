@@ -4,51 +4,40 @@ package com.example.szilsan.model;
  * Created by szilsan on 11/07/2017.
  */
 public class Globe {
-    private double x;
-    private double y;
-    private double z;
+
+    private Coordinate position;
+    private Coordinate currentSpeed;
 
     private double mass;
 
-    private double vx;
-    private double vy;
-    private double vz;
-
     public Globe(double x, double y, double z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.position = new Coordinate(x, y, z);
     }
 
     public Globe(double x, double y, double z, double mass) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.position = new Coordinate(x, y, z);
         this.mass = mass;
     }
 
-    public double getX() {
-        return x;
+    public Globe(Coordinate position, double mass) {
+        this.position = position;
+        this.mass = mass;
     }
 
-    public void setX(double x) {
-        this.x = x;
+    public Coordinate getPosition() {
+        return position;
     }
 
-    public double getY() {
-        return y;
+    public void setPosition(Coordinate position) {
+        this.position = position;
     }
 
-    public void setY(double y) {
-        this.y = y;
+    public Coordinate getCurrentSpeed() {
+        return currentSpeed;
     }
 
-    public double getZ() {
-        return z;
-    }
-
-    public void setZ(double z) {
-        this.z = z;
+    public void setCurrentSpeed(Coordinate currentSpeed) {
+        this.currentSpeed = currentSpeed;
     }
 
     public double getMass() {
@@ -57,29 +46,5 @@ public class Globe {
 
     public void setMass(double mass) {
         this.mass = mass;
-    }
-
-    public double getVx() {
-        return vx;
-    }
-
-    public void setVx(double vx) {
-        this.vx = vx;
-    }
-
-    public double getVy() {
-        return vy;
-    }
-
-    public void setVy(double vy) {
-        this.vy = vy;
-    }
-
-    public double getVz() {
-        return vz;
-    }
-
-    public void setVz(double vz) {
-        this.vz = vz;
     }
 }
