@@ -1,5 +1,7 @@
 package com.example.szilsan;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +16,9 @@ public class GlobeController {
 
     private static final String template = "Hello, %s!";
     private final AtomicLong counter = new AtomicLong();
+
+    @Autowired
+    private SimulationManager simulationManager;
 
     @RequestMapping("/")
     public String index() {
@@ -39,5 +44,27 @@ public class GlobeController {
         return positionsDTO;
     }
 
+    @RequestMapping("/stop")
+    public void stopSimulation(){
+        simulationManager.stopSimulation();
+    }
 
+    @RequestMapping("/restart")
+    public void restartSimulation(){
+        simulationManager.restartSimulation();
+    }
+
+    @RequestMapping("/continue")
+    public void continueSimulation(){
+        simulationManager.continueSimulation();
+    }
+
+    // GETTERS SETTERS
+    public SimulationManager getSimulationManager() {
+        return simulationManager;
+    }
+
+    public void setSimulationManager(SimulationManager simulationManager) {
+        this.simulationManager = simulationManager;
+    }
 }
