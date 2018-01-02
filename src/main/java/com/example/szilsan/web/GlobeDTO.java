@@ -1,4 +1,4 @@
-package com.example.szilsan;
+package com.example.szilsan.web;
 
 /**
  * Created by szilsan on 06/07/2017.
